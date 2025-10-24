@@ -1,8 +1,25 @@
 import express from 'express';
 import cors from 'cors';
+import { Kafka } from 'kafkajs';
 
 const app = express();
-
+const kafka = new Kafka({
+  clientId: 'payment-service',
+  brokers: ['localhost:9092'],
+});
+const producer = kafka.producer();
+const connectToKafka = async () =>
+{
+  try
+  {
+    await producer.connect();
+  }
+  catch (err)
+  {
+    console.error("Failed to connect to Kafka producer:", err);
+    throw err;
+  }
+};
 // Middleware
 app.use(express.json()); // for parsing JSON bodies
 app.use(
@@ -34,5 +51,6 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(8000, () => {
+  connectToKafka();
   console.log('Payment service is running on port 8000');
 });
