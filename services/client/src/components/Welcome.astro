@@ -25,11 +25,21 @@ import background from '../assets/background.svg';
 				</a>
 			</section>
 			<section id="checkout">
-				<a href="https://buy.stripe.com/6oE2873sI74a480bII" class="button">Checkout</a>
+				<button class="button">Checkout</button>
 			</section>
 		</section>
 	</main>
-
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const checkoutSection = document.getElementById("checkout");
+    checkoutSection?.addEventListener("click", (event) => {
+      event.preventDefault(); // prevent following the <a>
+      fetch('http://localhost:8000/payment-service', { method: 'POST', body: JSON.stringify({amount: 50}) })
+        .then(res => res.json())
+        .then(data => console.log(data));
+    });
+  });
+</script>
 	<a href="https://astro.build/blog/astro-5/" id="news" class="box">
 		<svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg"
 			><path

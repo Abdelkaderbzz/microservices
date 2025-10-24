@@ -1,25 +1,38 @@
 import express from 'express';
 import cors from 'cors';
-const app = express();
-app.use(cors({
-  origin: 'http://localhost:4321',
-}));
-app.post('/payment-service', (req, res) =>
-{
-  res.send('Payment service is up and running!');
-  const { cart } = req.body
-  const userId = '12345'
-  // TODO :payment 
 
-  // KAFKA
-  return res.status(200).send(JSON.stringify({ message: 'Payment processed successfully' }));
+const app = express();
+
+// Middleware
+app.use(express.json()); // for parsing JSON bodies
+app.use(
+  cors({
+    origin: 'http://localhost:4321',
+  })
+);
+
+// Payment route
+app.post('/payment-service', (req, res, next) => {
+  try {
+    const userId = '12345';
+    // TODO: payment logic here
+
+    // Simulate payment success
+    res.status(200).json({ message: 'Payment processed successfully', userId });
+  } catch (err) {
+    next(err); // forward to error middleware
+  }
 });
-app.use((err, req, res, next) =>
-{
-  console.error(err.stack);
-  res.status(err.status || 500).send(err.message);
+
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err); // skip if response already sent
+  }
+  res.status(err.status || 500).send(err.message || 'Internal Server Error');
 });
-app.listen(8000, () =>
-{
+
+// Start server
+app.listen(8000, () => {
   console.log('Payment service is running on port 8000');
 });
