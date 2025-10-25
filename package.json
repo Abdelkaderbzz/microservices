@@ -1,11 +1,8 @@
 {
   "name": "microservices",
-  "version": "1.0.0",
+  "version": "1.0.0", 
   "private": true,
   "packageManager": "pnpm@9.12.3",
-  "workspaces": [
-    "services/*"
-  ],
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
