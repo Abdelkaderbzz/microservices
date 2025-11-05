@@ -9,8 +9,6 @@ logs/
 *.log
 
 # Environment
-.env
-.env.*
 
 # Build output
 dist/
@@ -23,3 +21,4 @@ Thumbs.db
 
 # Turborepo cache
 .turbo/
+config.bat

@@ -14,7 +14,7 @@ const run = async () => {
       {
         topic: "order-successful",
       },
-    ],
+    ], 
   });
 };
 run()
